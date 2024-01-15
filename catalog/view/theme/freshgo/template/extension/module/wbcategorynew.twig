@@ -1,0 +1,64 @@
+<div class="container">
+<div class="homecategory row">
+ <h1 class="heading text-center"><span>{{ cheading_title }}</span></h1> 
+    <div id="cat-img" class="owl-carousel owl-theme">
+        {% for category in categories %}
+            {% if category.category_id == category_id %}
+                <div class="block-cat-wr col-xs-12 cless">
+                    <div class="categorybr">
+                    <a href="{{ category.href }}">
+                        {% if category.image_name %}
+                            <img src="{{ category.image_name }}" class="img-responsive center-block" alt="">
+                        {% else %}
+                            <img src="image/no_image.png" class="img-responsive center-block" alt="">
+                        {% endif %}
+                        <div class="catcontent text-right">
+                            <h2><span>{{ category.name }}</span></h2>
+                     
+                        </div>
+                    </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="block-cat-wr col-xs-12 cless">
+                    <div class="categorybr">
+                         <div class="catimg">
+                    <a href="{{ category.href }}">
+                        {% if category.image_name %}
+                           <img src="{{ category.image_name }}" class="img-responsive center-block" alt="">
+                        {% else %}
+                            <img src="image/no_image.png" class="img-responsive center-block" alt="">
+                        {% endif %}
+                    </div>
+                        <div class="catcontent">
+                            <h2><span>{{ category.name }}</span></h2>
+                          
+                        </div>
+                    </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>     
+</div>
+</div>
+<script type="text/javascript">
+ $(document).ready(function() {
+    $("#cat-img").owlCarousel({
+    itemsCustom : [
+    [0, 1],
+    [320, 2],
+    [576, 3],
+    [768, 4],
+    [992, 4],
+    [1200, 5],
+    [1410, 6]
+    ],
+      // autoPlay: 6000,
+       autoPlay: true,
+      navigationText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+      navigation : false,
+      pagination:false
+    });
+});
+</script>

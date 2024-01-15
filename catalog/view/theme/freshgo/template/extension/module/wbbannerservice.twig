@@ -1,0 +1,23 @@
+
+
+
+    {% for banner in banners %}
+
+    	 <div class="bannerser" style="background-image: url('{{ banner.image }}');">
+	        {# {% if banner.link %}
+			    <a href="{{ banner.link }}">
+			    <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive center-block" />
+			    </a>
+			    {% else %}
+			    <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive center-block" />
+		    {% endif %} #}
+		
+
+	<div class="container">
+		<div class="imgbnrtext">
+			{{ banner.description }}
+			<a href="{{ banner.link }}" class="btn btn-primary">{{ read_more }}</a>
+		</div>
+	</div>
+    {% endfor %}
+</div> 

@@ -1,0 +1,21 @@
+<div class="offbg container">
+<div class="offrow row rless">
+			{% for banner in banners %}
+			
+				<div class="col-sm-6 col-xs-12  offbanner cless">
+					<div class="beffect">
+				  {% if banner.link %}
+				  	<a href="{{ banner.link }}">
+				  		<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />
+				  	</a>
+				  {% else %}
+				  	<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />{% endif %}
+				  </div>
+			
+				<div class="off-text">
+			  <span class="off-title">{{ banner.description }}</span>
+			</div>
+				</div>
+			  {% endfor %}
+</div>
+</div>

@@ -1,0 +1,229 @@
+<div class="oc-bg">
+<div class="timerpro container">
+<h1 class="heading text-center"><span>{{ heading_title }}</span></h1>
+<div class="row rless"> 
+<div class="count-bag">
+  <div id="count" class="owl-theme owl-carousel">
+  {% for product in products %}
+  <div class="product-layout col-xs-12 cless">
+    <div class="product-thumb transition">
+
+      <div class="image">
+  
+        <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive center-block" /></a>
+
+         {% if product.is_new %}<span class="new">{{ pro_new }}</span>{% endif %}
+
+          <!-- {% if product.tag_per  %}
+        <span class="sale">{{ product.tag_per }}%</span>
+        {% endif %} -->
+
+        {% if product.price %}
+          {% if product.special %}
+             <!--   <span class="reduce-price">{{ pro_sale }}</span> -->
+          {% endif %}
+      {% endif %}
+  
+     <div class="btn-quickview">
+        <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><svg><use xlink:href="#heart" /></svg></button>
+      </div>
+      </div>
+     
+      <div class="caption">
+
+          <div class="bran">
+                <span>{{ Brand_title }} {{ product.manufacturer }}</span>
+        </div>
+        <div class="model">
+                <span>{{ model_title }} {{ product.model }}</span>
+        </div>
+        <h4 class="protitle"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+         <div class="opbtn">
+       {# Winter Infotech -- Add Code Data update #}
+        {% if product.price %}
+          {# Start Discount Code #}
+           {# <p class="discount">
+            {% if product.discount %}
+              <span data-update='discount-{{ product.product_id }}'>{{ product.discount }}</span>
+            {% endif %}
+          </p> #}
+          {# End Discount Code #}
+          <p class="price">
+            {% if not product.special %}
+            <span data-update='price-{{ product.product_id }}' class="price">{{ product.price }}</span>
+            {% else %}
+            <span data-update='price-new-{{ product.product_id }}' class="price-new">{{ product.special }}</span> <span data-update='price-{{ product.product_id }}' class="price-old">{{ product.price }}</span>
+            {% endif %}
+         
+          </p>
+        {# Winter Infotech -- Add Code Data update end #}
+        {% endif %}
+        {% if product.rating %}
+        
+          <div class="rating comments_note wb-list-product-reviews">
+          
+          <span class="rate-tot">{{ product.rating }} <i class="fa fa-star emstar"></i></span>({{ product.tab_review }})
+       
+        </div>{% else %}
+          <div class="rating comments_note wb-list-product-reviews">
+       
+            <span class="rate-tot">{{product.rating}} <i class="fa fa-star emstar"></i></span>({{ product.tab_review }})
+           
+       
+        </div>
+        {% endif %}
+        </div>
+        <div class="protax">
+          {% if product.tax %}
+            <span class="price-tax">{{ text_tax }}</span>
+            <span data-update='price-tax-{{ product.product_id }}' class="price-tax">{{ product.tax }}</span>
+            {% endif %}
+            </div>
+        {# <p class="countprice">{{ product.description }}</p> #}
+    
+      <div class="all-timer">
+          {% if config_module.countdown %}<div id="Countdown{{ product.product_id }}" class="box-timer"></div> {% endif %} 
+         {# <div id="Countdown42" class="box-timer is-countdown"><span class="countdown-row countdown-show4 "><span class="countdown-section"><span class="countdown-amount">758</span><span class="countdown-period">Days</span></span><span class="countdown-section"><span class="countdown-amount">8</span><span class="countdown-period">Hrs</span></span><span class="countdown-section"><span class="countdown-amount">21</span><span class="countdown-period">Mins</span></span><span class="countdown-section"><span class="countdown-amount">30</span><span class="countdown-period">Secs</span></span></span></div> #}
+      </div>
+       <div class="button-group">
+          
+          <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><svg><use xlink:href="#compare"/></svg></button>
+          <div data-toggle="tooltip" title="Quickview"  class="bquickv"></div>
+      </div>
+      {# Winter Infotech Start #}
+      <div class="webi-main">
+        {% if product.options %}
+          <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
+          {% for option in product.options %}
+            {% if option.type == 'checkbox' %}
+            <div class="form-group{% if option.required %} required {% endif %} checkbox_input">
+              <label class="control-label">{{ option.name }}</label>
+              <div id="input-option{{ option.product_option_id }}"> 
+                {% for option_value in option.product_option_value %}
+                <div class="checkbox">
+                  <label class="size-option">
+                    {% if option_value.raw_price %}
+                      {% set raw_price = option_value.raw_price %}
+                    {% else %}
+                      {% set raw_price = 0 %}
+                    {% endif %}
+                    <input class="webi-option-click" type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" data-rawPrice={{raw_price}} />
+                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}
+                     <span>{{ option_value.name }}</span>
+                    {% if option_value.price %}
+                    {# ({{ option_value.price_prefix }}{{ option_value.price }}) #}
+                    {% endif %} </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+            {% if option.type == 'select' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <select name="option[{{ option.product_option_id }}]" id="input-option{{ option.product_option_id }}" class="webi-option-select form-control">
+                <option value="">{{ text_select }}</option>
+                {% for option_value in option.product_option_value %}
+                  <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}
+                    {% if option_value.price %}
+                      ({{ option_value.price_prefix }}{{ option_value.price }})
+                    {% endif %} 
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+            {% if option.type == 'radio' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label">{{ option.name }}</label>
+              <div id="input-option{{ option.product_option_id }}" class="custom-radio"> {% for option_value in option.product_option_value %}
+                <div class="radio">
+                  <label class="color-option">
+                    <input class="webi-option-click" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" />
+                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}                  
+                    <span>{{ option_value.name }}<span>
+                    {% if option_value.price %}
+                    ({{ option_value.price_prefix }}{{ option_value.price }})
+                    {% endif %} </label>
+                </div>
+                {% endfor %} </div>
+            </div>
+            {% endif %}
+           
+          {% endfor %}
+        {% endif %}
+      </div>
+      {# Winter Infotech End #}
+      <div class="form-group homeaddq">
+          <div class="homeqt">
+            <span class="qty">{{ Qty }}</span>
+             <input class="addhqty" type="text" value="1" size="2" min="1" max="999" id="input-quantity-{{ product.product_id }}" class="form-control input-number pull-left" />
+             <div class="homeqtinner">
+              <button type="button" onclick="qty.plus('{{ product.product_id }}')" class="form-control btn-number btnplus">
+           
+              <i class="fa fa-angle-up"></i>
+            </button>
+           
+             <button type="button" onclick="qty.minus('{{ product.product_id }}')" class="form-control  btn-number btnminus dis-{{ product.product_id }}" disabled="disabled">
+             <i class="fa fa-angle-down"></i>
+            </button>
+            </div>
+          </div>
+         {% if product.options %}
+          <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
+          <button type="button" class="webi-cart" ><svg><use xlink:href="#hcart"></use></svg>
+          <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+        {% else %}
+          <button type="button" onclick="cart.add('{{ product.product_id }}');"><svg><use xlink:href="#hcart"></use></svg>
+           <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+        {% endif %}
+          <input type="hidden" name="hid-qty-msg" value="{{ atleast_cart }}">
+        </div>
+
+      </div>
+
+       
+    
+
+   {% if product.date_end %}
+            <script type="text/javascript">
+                (function($){
+                    $('#Countdown{{ product.product_id }}').countdown({
+                        until: new Date({{ product.date_end|date("Y") }}, {{ product.date_end|date("m") }}-1, {{ product.date_end|date("d") }}, {{ product.date_end|date("H") }}, {{ product.date_end|date("i") }}, {{ product.date_end|date("s") }}),
+                        labels: ['Years', 'Months', 'Weeks', 'Days', 'Hrs', 'Mins', 'Secs'],
+                        labels1: ['Year', 'Month', 'Week', 'Day', 'Hr', 'Min', 'Sec'],
+                    });
+                    //$('#Countdown<?php echo $product['product_id'];?>').countdown('pause');
+               }(jQuery));
+            </script>
+            {% endif %}
+            </div>
+    </div>
+  {% endfor %}
+
+
+  
+   </div>
+</div>
+ </div>
+</div>
+</div>
+<script type="text/javascript">
+   (function($){
+    $("#count").owlCarousel({
+    itemsCustom : [
+    [0, 1],
+    [400, 1],
+    [576,2],
+    [768, 3],
+    [992, 3],
+    [1200, 4],
+    [1410, 4]
+    ],
+      // autoPlay: 1000,
+      navigationText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+      navigation : true,
+      pagination:false
+    });
+    }(jQuery));
+</script>
